@@ -1,11 +1,12 @@
-import './App.css'
+import './App.css';
+import { Routes, Route } from 'react-router';
+import Playground from "./playground/Playground.tsx";
 
 function App() {
-
   return (
-    <p>
-      SomMark Website
-    </p>
+    <Routes>
+      <Route path="/playground" element= <Playground/> />
+    </Routes>
   )
 }
 
