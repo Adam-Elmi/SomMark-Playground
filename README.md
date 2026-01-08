@@ -1,6 +1,6 @@
-# SomMark Playground 
+# SomMark Playground
 
-> The ultimate interactive environment for **SomMark** — a powerful, extensible markup language designed for modern documentation.
+> The ultimate interactive environment for **SomMark**
 
 ![SomMark Playground Desktop](./public/screenshots/screenshot-1.png)
 
