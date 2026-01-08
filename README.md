@@ -53,12 +53,3 @@ The playground is designed to work seamlessly on any device.
    npm run dev
    ```
 
-## Deployment
-
-This project includes a fully automated deployment script for GitHub Pages.
-
-```bash
-# Deploys the current build to the gh-pages branch
-npm run deploy
-```
-
