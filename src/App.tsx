@@ -1,13 +1,9 @@
-import './App.css';
-import { Routes, Route } from 'react-router';
-import Playground from "./playground/Playground.tsx";
+import Playground from './components/Playground';
 
 function App() {
   return (
-    <Routes>
-      <Route path="/playground" element= <Playground/> />
-    </Routes>
-  )
+    <Playground />
+  );
 }
 
-export default App
+export default App;
