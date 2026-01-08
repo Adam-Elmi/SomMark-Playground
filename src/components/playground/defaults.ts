@@ -1,5 +1,4 @@
-import { DEFAULT_HTML_MAPPER } from "../../constants/defaultMappers";
-export const DEFAULT_SMARK = `[Section = "Introduction"]
+export const DEFAULT_SMARK = `[Section = Introduction]
 Hello to (SomMark)->(color: red)!
 
 @_Code_@: js
@@ -7,16 +6,15 @@ console.log("Hello World");
 @_end_@
 
 This is a (link)->(link: https://google.com "Google").
-[end]\`;
+[end]`;
 
-export const DEFAULT_CONFIG = \`export default {
+export const DEFAULT_CONFIG = `export default {
     mode: "default", // "default" or "custom"
     format: "html",  // "html", "md", or "mdx"
     includeDocument: true
-};\`;
+};`;
 
-export const DEFAULT_MAPPER = \`
-const mdx = new Mapper();
+export const DEFAULT_MAPPER = `const mdx = new Mapper();
 const { tag, code, list, htmlTable, setHeader, cssTheme } = mdx;
 
 // Inject default SomMark CSS theme
@@ -33,7 +31,7 @@ mdx.create("Section", ({ args, content }) => {
 mdx.create("Info", ({ content }) => {
     return tag("div")
         .attributes({
-            style: "background: #1e1e1e; padding: 15px; border-left: 4px solid #61dafb; margin: 10px 0; border-radius: 4px;"
+            style: 'background: #1e1e1e; padding: 15px; border-left: 4px solid #61dafb; margin: 10px 0; border-radius: 4px;'
         })
         .body(content);
 });
@@ -84,12 +82,3 @@ mdx.create(["list", "List"], ({ content }) => {
 
 return mdx;
 `;
-
-export const DEFAULT_CONFIG = 
-`export default {
-    mode: "default", // "default" or "custom"
-    format: "html",  // "html", "md", or "mdx"
-    includeDocument: true
-};`;
-
-export const DEFAULT_MAPPER = DEFAULT_HTML_MAPPER;
