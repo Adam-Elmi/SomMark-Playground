@@ -1,5 +1,5 @@
 import { DEFAULT_HTML_MAPPER } from "../../constants/defaultMappers";
-export const DEFAULT_SMARK = `\`[Section = "Introduction"]
+export const DEFAULT_SMARK = `[Section = "Introduction"]
 Hello to (SomMark)->(color: red)!
 
 @_Code_@: js
