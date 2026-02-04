@@ -1,0 +1,46 @@
+:root {
+    --base: #1a1a1e;       
+    --mantle: #181818;     
+    --crust: #0a0a0a;      
+    
+    --text: #e0e0e0;       
+    --subtext0: #a0a0a0;   
+    --subtext1: #707070;   
+    
+    --surface0: #1f1f1f;   
+    --surface1: #2d2d2d;   
+    --surface2: #3d3d3d;   
+    
+    --overlay0: #4f4f4f;   
+    
+    --red: #e03131;        
+    --red-dim: #c92a2a;    
+    --red-light: #ff6b6b;  
+    --maroon: #a61e4d;     
+    
+    --blue: #4dabf7;
+    --lavender: #748ffc;
+    --sapphire: #3bc9db;
+    --sky: #63e6be;
+    --teal: #20c997;
+    --green: #69db7c;
+    --yellow: #fcc419;
+    --peach: #ff922b;
+    --smoke: #cdf;
+    --pink: #f06595;
+    --soft-green: #cfd;
+
+    --bg-app: var(--base);
+    --bg-panel: var(--surface0);
+    --bg-panel-transparent: #15151a; 
+    
+    --border-color: var(--surface1);
+    --accent-primary: var(--smoke); 
+    --accent-secondary: var(--soft-green); 
+    
+    --gap: 16px;
+    --radius: 12px;
+    
+    --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+    --font-ui: 'Inter', system-ui, sans-serif;
+}
