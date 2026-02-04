@@ -1,18 +1,40 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <link rel="icon" type="image/svg+xml" href="/SomMark-Playground/sommark-icon.svg" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SomMark Playground</title>
-
-  <script type="module" crossorigin src="/SomMark-Playground/assets/index-BqLgOk2Z.js"></script>
-  <link rel="stylesheet" crossorigin href="/SomMark-Playground/assets/index-D8lmz9Bk.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SomMark Playground</title>
+    <link rel="icon" type="image/svg+xml" href="/SomMark-Playground/sommark-icon.svg" />
+    <!-- Highlight.js Theme -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+  <script type="module" crossorigin src="/SomMark-Playground/assets/index-DCo5x-il.js"></script>
+  <link rel="stylesheet" crossorigin href="/SomMark-Playground/assets/index-B03gNRAk.css">
 </head>
 
 <body>
-  <div id="root"></div>
+    <div id="app">
+        <header>
+            <img src="./sommark-icon.svg" alt="SomMark Logo" class="header-logo" />
+            <div class="controls">
+                <div id="format-select-container"></div>
+            </div>
+        </header>
+        <main class="playground">
+            <div class="pane editor-pane">
+                <div class="pane-header">Input (SomMark)</div>
+                <div id="editor-container" class="custom-editor">
+                    <!-- Editor.ts will inject content here -->
+                </div>
+            </div>
+            <div class="pane output-pane">
+                <div class="pane-header">Output</div>
+                <div id="output-container" class="output-viewer">
+                    <!-- OutputPanel.ts will inject content here -->
+                </div>
+            </div>
+        </main>
+    </div>
 </body>
 
 </html>
