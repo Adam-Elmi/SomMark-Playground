@@ -1,11 +1,11 @@
-import { CustomEditor } from './components/Editor';
-import { OutputPanel } from './components/OutputPanel';
+import { CustomEditor } from './playground/Editor';
+import { OutputPanel } from './playground/OutputPanel';
 // @ts-ignore
 import { parse, transpile, lex, HTML, MARKDOWN, MDX } from 'sommark';
 // @ts-ignore
 import Filter from 'ansi-to-html';
-import { CustomSelect } from './components/CustomSelect';
-import { initialCode } from './components/initialCode';
+import { CustomSelect } from './playground/CustomSelect';
+import { initialCode } from './playground/initialCode';
 
 const ansiConverter = new Filter({
     newline: true,
@@ -51,7 +51,7 @@ async function main() {
         { label: 'HTML', value: 'html' },
         { label: 'Markdown', value: 'markdown' },
         { label: 'MDX', value: 'mdx' },
-        { label: 'Text', value: 'text' }
+        { label: 'Text', value: 'text', hideRendered: true }
     ], savedFormat);
 
     const initialCodeContent = savedCode !== null ? savedCode : initialCode;
@@ -103,6 +103,8 @@ async function main() {
             tokens: tokens,
             format: format
         });
+
+        outputPanel.setRenderedTabVisible(!formatSelect.getSelectedOption()?.hideRendered);
     };
 
     const debounce = (func: Function, delay: number) => {
@@ -125,6 +127,30 @@ async function main() {
 
     formatSelect.onChange(() => {
         update(editor.getValue());
+    });
+
+    const resetBtn = document.getElementById('reset-btn');
+    resetBtn?.addEventListener('click', () => {
+        if (confirm('Are you sure you want to reset the editor to its initial state?')) {
+            editor.setValue(initialCode);
+            localStorage.removeItem(STORAGE_KEY_CODE);
+            update(initialCode);
+        }
+    });
+
+    const mobileViewBtns = document.querySelectorAll('.view-btn');
+    const playground = document.querySelector('.playground');
+    mobileViewBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const view = (btn as HTMLElement).dataset.view;
+            mobileViewBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            if (playground) {
+                playground.classList.remove('show-editor', 'show-output');
+                playground.classList.add(view === 'editor' ? 'show-editor' : 'show-output');
+            }
+        });
     });
 
     update(editor.getValue());
