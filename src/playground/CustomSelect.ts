@@ -1,6 +1,7 @@
 export interface SelectOption {
     label: string;
     value: string;
+    hideRendered?: boolean;
 }
 
 export class CustomSelect {
@@ -131,5 +132,9 @@ export class CustomSelect {
 
     public getValue(): string {
         return this.selectedValue;
+    }
+
+    public getSelectedOption(): SelectOption | undefined {
+        return this.options.find(o => o.value === this.selectedValue);
     }
 }

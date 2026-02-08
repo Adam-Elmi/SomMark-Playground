@@ -90,6 +90,20 @@ export class OutputPanel {
         this.container.querySelector(`#${tabId}`)?.classList.add('active');
     }
 
+    public setRenderedTabVisible(visible: boolean) {
+        const renderedBtn = this.container.querySelector('[data-tab="rendered"]') as HTMLElement;
+        if (!renderedBtn) return;
+
+        if (visible) {
+            renderedBtn.style.display = '';
+        } else {
+            renderedBtn.style.display = 'none';
+            if (renderedBtn.classList.contains('active')) {
+                this.switchMainTab('output');
+            }
+        }
+    }
+
     public async updateAll(data: { html: string, ast: any, tokens: any, format: string }) {
         const doc = this.renderedFrame.contentDocument;
         if (doc) {
