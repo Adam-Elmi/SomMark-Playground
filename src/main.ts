@@ -93,7 +93,9 @@ async function main() {
             transpiled = `<div class="error-container">${ansiConverter.toHtml(errorMsg)}</div>`;
 
             ast = { error: errorMsg };
-            tokens = [];
+            if (!tokens) {
+                tokens = [];
+            }
             console.error(e);
         }
 
