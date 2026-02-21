@@ -1,11 +1,12 @@
 import { CustomEditor } from './playground/Editor';
 import { OutputPanel } from './playground/OutputPanel';
 // @ts-ignore
-import { parse, transpile, lex, HTML, MARKDOWN, MDX } from 'sommark';
+import { parse, transpile, lex, HTML, MARKDOWN } from 'sommark';
 // @ts-ignore
 import Filter from 'ansi-to-html';
 import { CustomSelect } from './playground/CustomSelect';
-import { initialCode } from './playground/initialCode';
+import { initialCodes } from './playground/initialCodes';
+import CustomMDX from './playground/customMdxMapper';
 
 const ansiConverter = new Filter({
     newline: true,
@@ -33,11 +34,10 @@ const ansiConverter = new Filter({
 const FORMAT_MAPPERS: Record<string, any> = {
     'html': HTML,
     'markdown': MARKDOWN,
-    'mdx': MDX,
+    'mdx': CustomMDX,
     'text': null
 };
 
-const STORAGE_KEY_CODE = 'sommark-code';
 const STORAGE_KEY_FORMAT = 'sommark-format';
 
 async function main() {
@@ -45,7 +45,8 @@ async function main() {
     const outputPanel = new OutputPanel('output-container');
 
     const savedFormat = localStorage.getItem(STORAGE_KEY_FORMAT) || 'html';
-    const savedCode = localStorage.getItem(STORAGE_KEY_CODE);
+    const getStorageKeyCode = (format: string) => `sommark-code-${format}`;
+    const savedCode = localStorage.getItem(getStorageKeyCode(savedFormat));
 
     const formatSelect = new CustomSelect('format-select-container', [
         { label: 'HTML', value: 'html' },
@@ -54,7 +55,7 @@ async function main() {
         { label: 'Text', value: 'text', hideRendered: true }
     ], savedFormat);
 
-    const initialCodeContent = savedCode !== null ? savedCode : initialCode;
+    const initialCodeContent = savedCode !== null ? savedCode : (initialCodes[savedFormat] || initialCodes['html']);
 
     editor.setValue(initialCodeContent);
 
@@ -62,7 +63,7 @@ async function main() {
         const format = formatSelect.getValue();
 
         // Save to LocalStorage
-        localStorage.setItem(STORAGE_KEY_CODE, code);
+        localStorage.setItem(getStorageKeyCode(format), code);
         localStorage.setItem(STORAGE_KEY_FORMAT, format);
 
         let transpiled = '';
@@ -127,16 +128,21 @@ async function main() {
         debouncedUpdate(code);
     });
 
-    formatSelect.onChange(() => {
-        update(editor.getValue());
+    formatSelect.onChange((newFormat) => {
+        const savedCodeForFormat = localStorage.getItem(`sommark-code-${newFormat}`);
+        const newCode = savedCodeForFormat !== null ? savedCodeForFormat : (initialCodes[newFormat] || initialCodes['html']);
+        editor.setValue(newCode);
+        update(newCode);
     });
 
     const resetBtn = document.getElementById('reset-btn');
     resetBtn?.addEventListener('click', () => {
         if (confirm('Are you sure you want to reset the editor to its initial state?')) {
-            editor.setValue(initialCode);
-            localStorage.removeItem(STORAGE_KEY_CODE);
-            update(initialCode);
+            const currentFormat = formatSelect.getValue();
+            const originalCode = initialCodes[currentFormat] || initialCodes['html'];
+            editor.setValue(originalCode);
+            localStorage.removeItem(`sommark-code-${currentFormat}`);
+            update(originalCode);
         }
     });
 
