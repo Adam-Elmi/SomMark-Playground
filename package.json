@@ -20,6 +20,6 @@
         "codejar": "^4.3.0",
         "highlight.js": "^11.9.0",
         "marked": "^17.0.1",
-        "sommark": "^2.2.0"
+        "sommark": "^2.3.0"
     }
 }
