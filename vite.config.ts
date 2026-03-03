@@ -2,6 +2,8 @@ import { defineConfig } from 'vite';
 import { resolve } from 'path';
 
 export default defineConfig(({ command }) => {
+    const isLibBuild = process.env.VITE_BUILD_MODE === 'lib';
+
     // Shared config for both dev and build
     const config: any = {
         base: '/SomMark-Playground/',
@@ -15,8 +17,8 @@ export default defineConfig(({ command }) => {
         }
     };
 
-    // When building for production, add library mode
-    if (command === 'build') {
+    // Library mode: for npm publishing
+    if (command === 'build' && isLibBuild) {
         config.build = {
             outDir: 'dist',
             lib: {
