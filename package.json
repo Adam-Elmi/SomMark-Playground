@@ -19,7 +19,7 @@
     "scripts": {
         "dev": "vite",
         "build": "tsc && vite build",
-        "build:lib": "tsc && vite build",
+        "build:lib": "VITE_BUILD_MODE=lib tsc && VITE_BUILD_MODE=lib vite build",
         "preview": "vite preview",
         "predeploy": "npm run build",
         "deploy": "gh-pages -d dist"
