@@ -10,28 +10,22 @@ export class CustomSelect {
     private selectedValue: string;
     private onChangeCallback: ((value: string) => void) | null = null;
 
-    private triggerEl: HTMLElement;
-    private optionsEl: HTMLElement;
+    private optionsEl!: HTMLElement;
     private isOpen: boolean = false;
 
-    constructor(elementId: string, options: SelectOption[], initialValue: string) {
-        const el = document.getElementById(elementId);
-        if (!el) throw new Error(`Element ${elementId} not found`);
-        this.container = el;
+    constructor(container: HTMLElement | string, options: SelectOption[], initialValue: string) {
+        const el = typeof container === 'string' ? document.getElementById(container) : container;
+        if (!el) throw new Error(`Container ${container} not found`);
+        this.container = el as HTMLElement;
         this.options = options;
         this.selectedValue = initialValue;
 
-        this.container.classList.add('custom-select-container');
+        this.init();
+    }
 
-        if (this.container.querySelector('.custom-select-trigger')) {
-            this.container.innerHTML = '';
-        }
-
+    private init() {
+        this.container.classList.add('sm-format-select');
         this.render();
-
-        this.triggerEl = this.container.querySelector('.custom-select-trigger') as HTMLElement;
-        this.optionsEl = this.container.querySelector('.custom-options') as HTMLElement;
-
         this.setupEvents();
     }
 
@@ -39,37 +33,37 @@ export class CustomSelect {
         const selectedLabel = this.options.find(o => o.value === this.selectedValue)?.label || this.selectedValue;
 
         const optionsHtml = this.options.map(opt => `
-            <div class="custom-option ${opt.value === this.selectedValue ? 'selected' : ''}" data-value="${opt.value}">
+            <div class="sm-select-option ${opt.value === this.selectedValue ? 'sm-active' : ''}" data-value="${opt.value}">
                 ${opt.label}
             </div>
         `).join('');
 
         this.container.innerHTML = `
-            <div class="custom-select-trigger" tabindex="0">
-                <span>${selectedLabel}</span>
-                <div class="arrow"></div>
+            <div class="sm-select-trigger" tabindex="0">
+                <span class="sm-select-value">${selectedLabel}</span>
+                <div class="sm-select-arrow"></div>
             </div>
-            <div class="custom-options">
+            <div class="sm-select-options ${this.isOpen ? 'sm-visible' : ''}">
                 ${optionsHtml}
             </div>
         `;
+
+        this.optionsEl = this.container.querySelector('.sm-select-options') as HTMLElement;
     }
 
     private setupEvents() {
-        this.triggerEl.addEventListener('click', (e) => {
-            e.stopPropagation();
-            this.toggle();
-        });
-
-        this.triggerEl.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
+        // Use event delegation on the container to handle re-renders
+        this.container.addEventListener('click', (e) => {
+            const target = e.target as HTMLElement;
+            
+            const trigger = target.closest('.sm-select-trigger');
+            if (trigger) {
+                e.stopPropagation();
                 this.toggle();
+                return;
             }
-        });
 
-        this.optionsEl.addEventListener('click', (e) => {
-            const option = (e.target as HTMLElement).closest('.custom-option');
+            const option = target.closest('.sm-select-option');
             if (option) {
                 const value = (option as HTMLElement).dataset.value;
                 if (value) {
@@ -78,11 +72,13 @@ export class CustomSelect {
             }
         });
 
-        document.addEventListener('click', (e) => {
+        // Document click should only be added once in the constructor's init path
+        const onDocClick = (e: MouseEvent) => {
             if (this.isOpen && !this.container.contains(e.target as Node)) {
                 this.close();
             }
-        });
+        };
+        document.addEventListener('click', onDocClick);
     }
 
     private toggle() {
@@ -95,32 +91,20 @@ export class CustomSelect {
 
     private open() {
         this.isOpen = true;
-        this.container.classList.add('open');
-        this.optionsEl.classList.add('open');
+        this.optionsEl.classList.add('sm-visible');
+        this.container.classList.add('sm-open');
     }
 
     private close() {
         this.isOpen = false;
-        this.container.classList.remove('open');
-        this.optionsEl.classList.remove('open');
+        this.optionsEl.classList.remove('sm-visible');
+        this.container.classList.remove('sm-open');
     }
 
     public select(value: string) {
         this.selectedValue = value;
-        const selectedLabel = this.options.find(o => o.value === this.selectedValue)?.label || value;
-
-        const span = this.triggerEl.querySelector('span');
-        if (span) span.textContent = selectedLabel;
-
-        this.optionsEl.querySelectorAll('.custom-option').forEach(el => {
-            el.classList.remove('selected');
-            if ((el as HTMLElement).dataset.value === value) {
-                el.classList.add('selected');
-            }
-        });
-
         this.close();
-
+        this.render(); 
         if (this.onChangeCallback) {
             this.onChangeCallback(this.selectedValue);
         }
@@ -138,3 +122,4 @@ export class CustomSelect {
         return this.options.find(o => o.value === this.selectedValue);
     }
 }
+
