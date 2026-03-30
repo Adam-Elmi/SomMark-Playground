@@ -1,42 +1,28 @@
 import { defineConfig } from 'vite';
-import { resolve } from 'path';
+import { nodePolyfills } from 'vite-plugin-node-polyfills';
 
-export default defineConfig(({ command }) => {
-    const isLibBuild = process.env.VITE_BUILD_MODE === 'lib';
-
-    // Shared config for both dev and build
-    const config: any = {
-        base: '/SomMark-Playground/',
-        root: '.',
-        server: {
-            open: true,
-            host: true
-        },
-        build: {
-            outDir: 'dist'
-        }
-    };
-
-    // Library mode: for npm publishing
-    if (command === 'build' && isLibBuild) {
-        config.build = {
-            outDir: 'dist',
-            lib: {
-                entry: resolve(__dirname, 'src/index.ts'),
-                name: 'SomMarkPlayground',
-                formats: ['es', 'umd'],
-                fileName: (format: string) => `sommark-playground.${format}.js`
-            },
-            rollupOptions: {
-                external: ['sommark'],
-                output: {
-                    globals: {
-                        sommark: 'SomMark'
-                    }
-                }
-            }
-        };
+// https://vite.dev/config/
+export default defineConfig({
+  server: {
+    host: true,
+  },
+  build: {
+    sourcemap: true,
+  },
+  resolve: {
+    alias: {
+      // Direct aliases for Node.js built-ins to a safe empty mock
+      // This satisfies both dev (esbuild) and build (rollup)
+      'node:fs/promises': 'node-stdlib-browser/mock/empty',
+      'node:fs': 'node-stdlib-browser/mock/empty',
+      'node:url': 'node-stdlib-browser/mock/empty',
+      'node:path': 'node-stdlib-browser/mock/empty',
+      'node:os': 'node-stdlib-browser/mock/empty',
     }
-
-    return config;
+  },
+  plugins: [
+    nodePolyfills({
+      protocolImports: true,
+    }),
+  ],
 });
