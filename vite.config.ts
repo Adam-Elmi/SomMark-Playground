@@ -3,6 +3,7 @@ import { nodePolyfills } from 'vite-plugin-node-polyfills';
 
 // https://vite.dev/config/
 export default defineConfig({
+  base: './',
   server: {
     host: true,
   },
