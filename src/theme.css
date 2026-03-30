@@ -30,6 +30,15 @@
     --pink: #f06595;
     --soft-green: #cfd;
 
+    /* Atom One Dark Palette */
+    --one-blue: #61afef;
+    --one-orange: #d19a66;
+    --one-purple: #c678dd;
+    --one-red: #e06c75;
+    --one-green: #98c379;
+    --one-grey: #5c6370;
+    --one-white: #abb2bf;
+
     --bg-app: var(--base);
     --bg-panel: var(--surface0);
     --bg-panel-transparent: #15151a; 
@@ -43,4 +52,18 @@
     
     --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
     --font-ui: 'Inter', system-ui, sans-serif;
+
+    /* Premium Component Variables */
+    --card-bg: var(--surface0);
+    --card-border: var(--surface1);
+    --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    
+    --alert-info-bg: rgba(77, 171, 247, 0.1);
+    --alert-info-border: var(--blue);
+    --alert-warning-bg: rgba(252, 196, 25, 0.1);
+    --alert-warning-border: var(--yellow);
+    --alert-error-bg: rgba(224, 49, 49, 0.1);
+    --alert-error-border: var(--red);
+    --alert-success-bg: rgba(105, 219, 124, 0.1);
+    --alert-success-border: var(--green);
 }
