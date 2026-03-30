@@ -1,5 +1,5 @@
-export const textInitialCode = `[Section]
-  [Block] (SomMark to Plain Text)->(h1) [end]
+export const textInitialCode = `[Block]
+  [h1] SomMark to Plain Text [end]
 
   [Block]
   When transpiling to plain text, SomMark strips away the structural tags 
@@ -8,13 +8,8 @@ export const textInitialCode = `[Section]
 
   [h2] How it works [end]
   [Block]
-  Notice how this (bold text)->(bold) and this (link)->(link: https\\://example.com) 
+  Notice how this (bold text)->(bold) and this  [a = href: "https://sommark.org", target: _blank]Click Here[end]
   will simply appear as plain text in the output.
-  [end]
-
-  [list]
-    Lists lose their formatting.
-    Headings lose their sizes.
   [end]
 [end]`;
 
